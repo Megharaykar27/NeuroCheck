@@ -1,0 +1,145 @@
+{
+  "intercept": -3.7950886925356824,
+  "columns": [
+    {
+      "feature": "age",
+      "coef": 1.4394698043568037,
+      "baseline": -0.03367838282507053,
+      "kind": "numeric",
+      "median": 46.0,
+      "mean": 44.17379766536965,
+      "scale": 22.797861920492267
+    },
+    {
+      "feature": "avg_glucose_level",
+      "coef": 0.1898559674692555,
+      "baseline": -0.018960919756511797,
+      "kind": "numeric",
+      "median": 92.13499999999999,
+      "mean": 106.82314980544747,
+      "scale": 45.968903094304
+    },
+    {
+      "feature": "bmi",
+      "coef": 0.06334133971818966,
+      "baseline": -0.008325957634835327,
+      "kind": "numeric",
+      "median": 28.2,
+      "mean": 28.556478599221787,
+      "scale": 6.765745927089718
+    },
+    {
+      "feature": "hypertension",
+      "coef": 0.38112342498268,
+      "baseline": 0.09640490058244627,
+      "kind": "binary"
+    },
+    {
+      "feature": "heart_disease",
+      "coef": 0.2709886068977402,
+      "baseline": 0.05523197429202651,
+      "kind": "binary"
+    },
+    {
+      "feature": "gender",
+      "coef": 0.03774293241941181,
+      "baseline": 0.41675035147620004,
+      "kind": "category",
+      "value": "Male"
+    },
+    {
+      "feature": "ever_married",
+      "coef": -0.11051510475679677,
+      "baseline": 0.6583651335609562,
+      "kind": "category",
+      "value": "Yes"
+    },
+    {
+      "feature": "work_type",
+      "coef": -0.0006985858513708945,
+      "baseline": 0.1295440851576622,
+      "kind": "category",
+      "value": "Govt_job"
+    },
+    {
+      "feature": "work_type",
+      "coef": 0.06590839669921665,
+      "baseline": 0.5736091584655554,
+      "kind": "category",
+      "value": "Private"
+    },
+    {
+      "feature": "work_type",
+      "coef": -0.1391862275360963,
+      "baseline": 0.1616790520184776,
+      "kind": "category",
+      "value": "Self-employed"
+    },
+    {
+      "feature": "work_type",
+      "coef": 0.07879549579603938,
+      "baseline": 0.13516770435830489,
+      "kind": "category",
+      "value": "children"
+    },
+    {
+      "feature": "Residence_type",
+      "coef": 0.0431450821477751,
+      "baseline": 0.5077324764008837,
+      "kind": "category",
+      "value": "Urban"
+    },
+    {
+      "feature": "smoking_status",
+      "coef": -0.026273381083863855,
+      "baseline": 0.3008636272343844,
+      "kind": "category",
+      "value": "Unknown"
+    },
+    {
+      "feature": "smoking_status",
+      "coef": 0.071245857217302,
+      "baseline": 0.17413135167704358,
+      "kind": "category",
+      "value": "formerly smoked"
+    },
+    {
+      "feature": "smoking_status",
+      "coef": -0.12478387324278666,
+      "baseline": 0.3693512753564973,
+      "kind": "category",
+      "value": "never smoked"
+    },
+    {
+      "feature": "smoking_status",
+      "coef": 0.08463047621713535,
+      "baseline": 0.15565374573207472,
+      "kind": "category",
+      "value": "smokes"
+    }
+  ],
+  "features": [
+    "age",
+    "avg_glucose_level",
+    "bmi",
+    "hypertension",
+    "heart_disease",
+    "gender",
+    "ever_married",
+    "work_type",
+    "Residence_type",
+    "smoking_status"
+  ],
+  "labels": {
+    "age": "Age",
+    "avg_glucose_level": "Blood sugar (glucose)",
+    "bmi": "Body mass index (BMI)",
+    "hypertension": "High blood pressure",
+    "heart_disease": "Heart disease",
+    "gender": "Gender",
+    "ever_married": "Marital status",
+    "work_type": "Type of work",
+    "Residence_type": "Area (urban/rural)",
+    "smoking_status": "Smoking"
+  }
+}

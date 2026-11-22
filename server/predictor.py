@@ -2,9 +2,7 @@
 import json
 from pathlib import Path
 
-import joblib
 import numpy as np
-import pandas as pd
 
 MODEL_DIR = Path(__file__).parent / "model"
 
@@ -23,22 +21,32 @@ class ValidationError(ValueError):
 
 class Predictor:
     def __init__(self):
-        bundle = joblib.load(MODEL_DIR / "model.joblib")
-        self.pipe = bundle["pipeline"]
-        self.pre = self.pipe.named_steps["pre"]
-        self.coef = self.pipe.named_steps["model"].coef_[0]
-        self.intercept = self.pipe.named_steps["model"].intercept_[0]
-        self.names = bundle["feature_names"]
-        self.baseline = bundle["baseline"]
-        self.features = bundle["features"]
-        self.labels = bundle["labels"]
+        # model.json holds the trained logistic regression as plain numbers
+        # (written by ml/train.py), so no scikit-learn is needed at runtime.
+        model = json.loads((MODEL_DIR / "model.json").read_text())
+        self.intercept = model["intercept"]
+        self.columns = model["columns"]
+        self.labels = model["labels"]
+        self.coef = np.array([c["coef"] for c in self.columns])
+        self.baseline = np.array([c["baseline"] for c in self.columns])
+        self.col_feature = [c["feature"] for c in self.columns]
         self.metrics = json.loads((MODEL_DIR / "metrics.json").read_text())
         self.thresholds = self.metrics["thresholds"]
-        # Which original question each model column belongs to
-        self.col_feature = []
-        for n in self.names:
-            col = n.split("__", 1)[1]
-            self.col_feature.append(next(f for f in self.features if col == f or col.startswith(f + "_")))
+
+    def transform(self, row):
+        """Turn one person's answers into the numbers the model was trained on:
+        numbers are scaled, yes/no stays 0/1, categories become 0/1 columns."""
+        out = []
+        for c in self.columns:
+            v = row[c["feature"]]
+            if c["kind"] == "numeric":
+                v = c["median"] if v is None else v
+                out.append((v - c["mean"]) / c["scale"])
+            elif c["kind"] == "binary":
+                out.append(float(v))
+            else:
+                out.append(1.0 if v == c["value"] else 0.0)
+        return np.array(out)
 
     # ------------------------------------------------------------ validation
     @staticmethod
@@ -84,7 +92,8 @@ class Predictor:
 
     # ------------------------------------------------------------ prediction
     def _prob(self, row):
-        return float(self.pipe.predict_proba(pd.DataFrame([row])[self.features])[0, 1])
+        z = self.intercept + float(self.coef @ self.transform(row))
+        return float(1 / (1 + np.exp(-z)))
 
     def level(self, p):
         if p >= self.thresholds["high"]:
@@ -103,8 +112,7 @@ class Predictor:
         """How much each answer moves the risk compared with an average person.
         Logistic regression adds up evidence, so we can take each answer out
         and see exactly how much it changed the result."""
-        xt = self.pre.transform(pd.DataFrame([row])[self.features])
-        xt = np.asarray(xt.todense() if hasattr(xt, "todense") else xt)[0]
+        xt = self.transform(row)
         contrib = {}
         for i, f in enumerate(self.col_feature):
             contrib[f] = contrib.get(f, 0.0) + self.coef[i] * (xt[i] - self.baseline[i])

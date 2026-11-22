@@ -1,4 +1,8 @@
-# For running train.py and analysis.ipynb
--r ../server/requirements.txt
+# For running train.py and analysis.ipynb (not needed to run the app)
+numpy>=1.26
+pandas>=2.2
+scipy>=1.13
+scikit-learn>=1.6
+joblib>=1.4
 matplotlib>=3.8
 jupyter>=1.0

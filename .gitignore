@@ -20,3 +20,6 @@ dist/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Full scikit-learn pipeline written by train.py (the app uses server/model/model.json)
+ml/model_sklearn.joblib

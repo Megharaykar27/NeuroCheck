@@ -200,8 +200,48 @@ for lo, hi in [(0, 18), (18, 30), (30, 40), (40, 50), (50, 60), (60, 70), (70, 1
 
 roc_points = [{"fpr": round(float(a), 3), "tpr": round(float(b), 3)} for a, b in zip(fpr, tpr)][:: max(1, len(fpr) // 60)] + [{"fpr": 1.0, "tpr": 1.0}]
 
-joblib.dump({"pipeline": final, "feature_names": list(names), "baseline": baseline_t,
-             "features": FEATURES, "labels": LABELS}, OUT / "model.joblib")
+# Save the model as plain JSON numbers. The API rebuilds the exact same maths
+# with numpy, so it doesn't need scikit-learn and works on any Python version.
+num_pipe = pre.named_transformers_["num"]
+medians = dict(zip(NUM, num_pipe.named_steps["impute"].statistics_))
+means = dict(zip(NUM, num_pipe.named_steps["scale"].mean_))
+scales = dict(zip(NUM, num_pipe.named_steps["scale"].scale_))
+columns = []
+for i, n in enumerate(names):
+    block, col = n.split("__", 1)
+    feat = next(f for f in FEATURES if col == f or col.startswith(f + "_"))
+    spec = {"feature": feat, "coef": float(lr.coef_[0][i]), "baseline": float(baseline_t[i])}
+    if block == "num":
+        spec.update(kind="numeric", median=float(medians[feat]), mean=float(means[feat]), scale=float(scales[feat]))
+    elif block == "bin":
+        spec.update(kind="binary")
+    else:
+        spec.update(kind="category", value=col[len(feat) + 1:])
+    columns.append(spec)
+model_json = {"intercept": float(lr.intercept_[0]), "columns": columns, "features": FEATURES, "labels": LABELS}
+(OUT / "model.json").write_text(json.dumps(model_json, indent=2))
+# Keep a copy of the full scikit-learn pipeline for the notebook / experiments
+joblib.dump({"pipeline": final, "feature_names": list(names)}, HERE / "model_sklearn.joblib")
+
+# Sanity check: the JSON model must give exactly the same answers
+def json_prob(row):
+    z = model_json["intercept"]
+    for c in columns:
+        v = row[c["feature"]]
+        if c["kind"] == "numeric":
+            v = c["median"] if pd.isna(v) else v
+            x = (v - c["mean"]) / c["scale"]
+        elif c["kind"] == "binary":
+            x = float(v)
+        else:
+            x = 1.0 if v == c["value"] else 0.0
+        z += c["coef"] * x
+    return 1 / (1 + np.exp(-z))
+
+
+check = np.array([json_prob(r) for _, r in X.head(500).iterrows()])
+assert np.allclose(check, all_p[:500], atol=1e-9), "JSON model does not match scikit-learn"
+print("JSON model matches scikit-learn exactly.")
 
 metrics = {
     "dataset": {"rows": int(len(df)), "stroke_rows": int(y.sum()), "distinct_stroke_patients": int(n_real),

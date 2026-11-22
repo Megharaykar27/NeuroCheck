@@ -59,7 +59,7 @@ Final model: ROC-AUC **0.84**, recall **80%** at the elevated-risk threshold, sp
 ## How it works
 
 ```
-React (Vite)  ──►  Flask REST API  ──►  scikit-learn model (joblib)
+React (Vite)  ──►  Flask REST API  ──►  model.json (trained with scikit-learn, served with NumPy)
                          │
                          └──►  SQLite via SQLAlchemy (users, saved results)
 ```
@@ -73,7 +73,7 @@ React (Vite)  ──►  Flask REST API  ──►  scikit-learn model (joblib)
 
 ## Run it locally
 
-You need **Python 3.10+** and **Node.js 18+**.
+You need **Python 3.10 or newer** (any version, including 3.14) and **Node.js 18+**.
 
 ```bash
 git clone https://github.com/Megharaykar27/NeuroCheck.git
@@ -93,7 +93,7 @@ npm install
 npm run dev                      # http://localhost:5173
 ```
 
-The trained model is already included in `server/model/`. To retrain it and regenerate every metric:
+The trained model is already included as `server/model/model.json`. The API rebuilds the model's maths with NumPy from that file, so it doesn't need scikit-learn and installs quickly on any Python version. To retrain it and regenerate every metric:
 
 ```bash
 cd ml
@@ -107,12 +107,12 @@ python train.py
 NeuroCheck/
 ├── ml/
 │   ├── data/brain_stroke.csv   dataset (5,140 rows)
-│   ├── train.py                leak-safe training + evaluation, writes server/model/
+│   ├── train.py                leak-safe training + evaluation, exports server/model/
 │   └── analysis.ipynb          EDA, duplicate detection, model comparison
 ├── server/
 │   ├── app.py                  Flask API, auth, history
 │   ├── predictor.py            validation, prediction, explanations, what-if
-│   └── model/                  model.joblib + metrics.json
+│   └── model/                  model.json (weights) + metrics.json
 ├── client/src/
 │   ├── pages/                  Home, Assess, Result, Model, History, Login
 │   └── components/             RiskGauge, NeuralCanvas, Navbar…
