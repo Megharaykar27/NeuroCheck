@@ -1,0 +1,424 @@
+{
+  "dataset": {
+    "rows": 5140,
+    "stroke_rows": 407,
+    "distinct_stroke_patients": 246,
+    "near_copies": 161,
+    "stroke_nn_same_label": 0.774,
+    "stroke_rate_real": 0.0494
+  },
+  "final_model": {
+    "name": "Logistic Regression (calibrated, copy-aware)",
+    "roc_auc": 0.84,
+    "pr_auc": 0.192,
+    "brier": 0.0429,
+    "recall_high": 0.801,
+    "precision_high": 0.137,
+    "specificity_high": 0.738,
+    "confusion": {
+      "tn": 3493,
+      "fp": 1240,
+      "fn": 49,
+      "tp": 197
+    }
+  },
+  "thresholds": {
+    "moderate": 0.0205,
+    "high": 0.0563
+  },
+  "old_method": {
+    "accuracy_mean": 0.829,
+    "accuracy_min": 0.741,
+    "accuracy_max": 0.889,
+    "test_rows": 81,
+    "always_no_accuracy": 0.921
+  },
+  "comparison": [
+    {
+      "model": "Logistic Regression",
+      "auc_naive": 0.842,
+      "auc_leak_safe": 0.84
+    },
+    {
+      "model": "Random Forest",
+      "auc_naive": 0.858,
+      "auc_leak_safe": 0.831
+    },
+    {
+      "model": "Gradient Boosting",
+      "auc_naive": 0.849,
+      "auc_leak_safe": 0.825
+    },
+    {
+      "model": "Extra Trees",
+      "auc_naive": 0.859,
+      "auc_leak_safe": 0.811
+    },
+    {
+      "model": "Random Forest (overfit, old style)",
+      "auc_naive": 0.905,
+      "auc_leak_safe": 0.789
+    }
+  ],
+  "importance": [
+    {
+      "feature": "age",
+      "label": "Age",
+      "weight": 1.4395
+    },
+    {
+      "feature": "avg_glucose_level",
+      "label": "Blood sugar (glucose)",
+      "weight": 0.1899
+    },
+    {
+      "feature": "smoking_status",
+      "label": "Smoking",
+      "weight": 0.1302
+    },
+    {
+      "feature": "hypertension",
+      "label": "High blood pressure",
+      "weight": 0.116
+    },
+    {
+      "feature": "work_type",
+      "label": "Type of work",
+      "weight": 0.111
+    },
+    {
+      "feature": "heart_disease",
+      "label": "Heart disease",
+      "weight": 0.0641
+    },
+    {
+      "feature": "bmi",
+      "label": "Body mass index (BMI)",
+      "weight": 0.0633
+    },
+    {
+      "feature": "ever_married",
+      "label": "Marital status",
+      "weight": 0.0521
+    },
+    {
+      "feature": "Residence_type",
+      "label": "Area (urban/rural)",
+      "weight": 0.0216
+    },
+    {
+      "feature": "gender",
+      "label": "Gender",
+      "weight": 0.0186
+    }
+  ],
+  "age_bands": [
+    {
+      "from": 0,
+      "to": 18,
+      "avg_risk": 0.0024
+    },
+    {
+      "from": 18,
+      "to": 30,
+      "avg_risk": 0.0061
+    },
+    {
+      "from": 30,
+      "to": 40,
+      "avg_risk": 0.0121
+    },
+    {
+      "from": 40,
+      "to": 50,
+      "avg_risk": 0.0225
+    },
+    {
+      "from": 50,
+      "to": 60,
+      "avg_risk": 0.046
+    },
+    {
+      "from": 60,
+      "to": 70,
+      "avg_risk": 0.0851
+    },
+    {
+      "from": 70,
+      "to": 120,
+      "avg_risk": 0.17
+    }
+  ],
+  "calibration": [
+    {
+      "predicted": 0.3,
+      "observed": 0.2
+    },
+    {
+      "predicted": 1.0,
+      "observed": 0.4
+    },
+    {
+      "predicted": 2.5,
+      "observed": 1.9
+    },
+    {
+      "predicted": 5.9,
+      "observed": 6.5
+    },
+    {
+      "predicted": 16.2,
+      "observed": 16.8
+    }
+  ],
+  "roc": [
+    {
+      "fpr": 0.0,
+      "tpr": 0.0
+    },
+    {
+      "fpr": 0.003,
+      "tpr": 0.024
+    },
+    {
+      "fpr": 0.006,
+      "tpr": 0.045
+    },
+    {
+      "fpr": 0.008,
+      "tpr": 0.068
+    },
+    {
+      "fpr": 0.011,
+      "tpr": 0.084
+    },
+    {
+      "fpr": 0.015,
+      "tpr": 0.098
+    },
+    {
+      "fpr": 0.022,
+      "tpr": 0.116
+    },
+    {
+      "fpr": 0.026,
+      "tpr": 0.134
+    },
+    {
+      "fpr": 0.03,
+      "tpr": 0.154
+    },
+    {
+      "fpr": 0.032,
+      "tpr": 0.181
+    },
+    {
+      "fpr": 0.037,
+      "tpr": 0.205
+    },
+    {
+      "fpr": 0.044,
+      "tpr": 0.224
+    },
+    {
+      "fpr": 0.045,
+      "tpr": 0.238
+    },
+    {
+      "fpr": 0.051,
+      "tpr": 0.254
+    },
+    {
+      "fpr": 0.057,
+      "tpr": 0.274
+    },
+    {
+      "fpr": 0.06,
+      "tpr": 0.297
+    },
+    {
+      "fpr": 0.063,
+      "tpr": 0.313
+    },
+    {
+      "fpr": 0.065,
+      "tpr": 0.337
+    },
+    {
+      "fpr": 0.07,
+      "tpr": 0.354
+    },
+    {
+      "fpr": 0.074,
+      "tpr": 0.368
+    },
+    {
+      "fpr": 0.082,
+      "tpr": 0.386
+    },
+    {
+      "fpr": 0.085,
+      "tpr": 0.402
+    },
+    {
+      "fpr": 0.088,
+      "tpr": 0.42
+    },
+    {
+      "fpr": 0.092,
+      "tpr": 0.434
+    },
+    {
+      "fpr": 0.095,
+      "tpr": 0.456
+    },
+    {
+      "fpr": 0.099,
+      "tpr": 0.472
+    },
+    {
+      "fpr": 0.102,
+      "tpr": 0.492
+    },
+    {
+      "fpr": 0.106,
+      "tpr": 0.504
+    },
+    {
+      "fpr": 0.11,
+      "tpr": 0.52
+    },
+    {
+      "fpr": 0.116,
+      "tpr": 0.53
+    },
+    {
+      "fpr": 0.12,
+      "tpr": 0.547
+    },
+    {
+      "fpr": 0.123,
+      "tpr": 0.567
+    },
+    {
+      "fpr": 0.134,
+      "tpr": 0.583
+    },
+    {
+      "fpr": 0.143,
+      "tpr": 0.6
+    },
+    {
+      "fpr": 0.148,
+      "tpr": 0.616
+    },
+    {
+      "fpr": 0.164,
+      "tpr": 0.636
+    },
+    {
+      "fpr": 0.172,
+      "tpr": 0.65
+    },
+    {
+      "fpr": 0.179,
+      "tpr": 0.673
+    },
+    {
+      "fpr": 0.183,
+      "tpr": 0.687
+    },
+    {
+      "fpr": 0.19,
+      "tpr": 0.703
+    },
+    {
+      "fpr": 0.202,
+      "tpr": 0.72
+    },
+    {
+      "fpr": 0.217,
+      "tpr": 0.734
+    },
+    {
+      "fpr": 0.224,
+      "tpr": 0.752
+    },
+    {
+      "fpr": 0.229,
+      "tpr": 0.763
+    },
+    {
+      "fpr": 0.239,
+      "tpr": 0.776
+    },
+    {
+      "fpr": 0.244,
+      "tpr": 0.789
+    },
+    {
+      "fpr": 0.262,
+      "tpr": 0.801
+    },
+    {
+      "fpr": 0.28,
+      "tpr": 0.811
+    },
+    {
+      "fpr": 0.292,
+      "tpr": 0.831
+    },
+    {
+      "fpr": 0.313,
+      "tpr": 0.841
+    },
+    {
+      "fpr": 0.324,
+      "tpr": 0.858
+    },
+    {
+      "fpr": 0.33,
+      "tpr": 0.874
+    },
+    {
+      "fpr": 0.345,
+      "tpr": 0.89
+    },
+    {
+      "fpr": 0.39,
+      "tpr": 0.907
+    },
+    {
+      "fpr": 0.408,
+      "tpr": 0.919
+    },
+    {
+      "fpr": 0.432,
+      "tpr": 0.929
+    },
+    {
+      "fpr": 0.472,
+      "tpr": 0.941
+    },
+    {
+      "fpr": 0.5,
+      "tpr": 0.953
+    },
+    {
+      "fpr": 0.546,
+      "tpr": 0.967
+    },
+    {
+      "fpr": 0.622,
+      "tpr": 0.984
+    },
+    {
+      "fpr": 0.998,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 1.0,
+      "tpr": 1.0
+    }
+  ]
+}
