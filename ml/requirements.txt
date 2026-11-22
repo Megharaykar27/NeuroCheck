@@ -1,0 +1,4 @@
+# For running train.py and analysis.ipynb
+-r ../server/requirements.txt
+matplotlib>=3.8
+jupyter>=1.0
