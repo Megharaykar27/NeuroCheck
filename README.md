@@ -131,4 +131,4 @@ Brain stroke dataset (5,140 records, 10 features), derived from the public Kaggl
 
 ---
 
-Built by **Megha Raykar** · [GitHub](https://github.com/Megharaykar27) · [LinkedIn](https://www.linkedin.com/in/megha-raykar-335617337/)
+Built by **Megha Raykar** · [GitHub](https://github.com/Megharaykar27) · [LinkedIn](https://www.linkedin.com/in/meghxcoder)
